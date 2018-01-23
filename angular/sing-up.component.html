@@ -1,0 +1,54 @@
+<!-- Sing Up -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-6 signup-form-frame">
+      <div class="message text-center" *ngIf="message; else registrationForm">
+        <h3><b>Successful registration</b></h3>
+        <p>We sent a confirmation email to your email. Please confirm your email.</p>
+      </div>
+      <ng-template #registrationForm>
+        <div class="well">
+          <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+          <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+            <div class="" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+              <label for="email" class="control-label">E-mail:</label>
+              <input type="text" class="form-control" id="email" name="email"
+                     [(ngModel)]="singUpModel.email" #email="ngModel" required email
+                     title="Please enter you email" placeholder="Enter E-mail Here..">
+              <div *ngIf="f.submitted && !email.valid" class="help-block">E-mail is required</div>
+              <div *ngIf="emailMessage" class="help-block error-block">{{ emailMessage }}</div>
+            </div>
+            <div class="" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+              <label for="password" class="control-label">Password:</label>
+              <input type="password" class="form-control" id="password" name="password"
+                     [(ngModel)]="singUpModel.password" #password="ngModel" required
+                     title="Please enter your password" placeholder="Enter Password Here..">
+              <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+              <div *ngIf="passwordMessage" class="help-block error-block">{{ passwordMessage }}</div>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="remember" id="remember" [(ngModel)]="singUpModel.user_agreement">I agree to the User Agreement and Privacy Policy.
+              </label>
+              <p class="help-block"></p>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-info btn-block" [disabled]="!singUpModel.user_agreement">Create Account</button>
+            </div>
+
+          </form>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="col-xs-6 mobile-frame-signup-image">
+      <img class="sing-up-image" alt="Sing Up" src="/assets/img/sing_up.png">
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button (click)="openModalWithComponent()" type="button" class="btn button-group"> Already have an account? Sign In
+    </button>
+  </div>
+</div>

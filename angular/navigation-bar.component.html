@@ -1,0 +1,88 @@
+<!-- Navigation Bar -->
+
+<nav class="navbar-cryptosite navbar-container">
+  <div class="container-fluid">
+    <div class="navbar-header navbar-lgog-box">
+      <a routerLink="/">
+        <img src="/assets/img/logo.png" class="navbar-logo">
+      </a>
+    </div>
+    <div *ngIf="currentUser; else navbarlogin">
+      <ul class="nav navbar-nav navbar-right" *ngIf="currentUser.role=='user'">
+        <li class="avatar-li-element">
+          <div class="avatar-size-box">
+            <img src="{{currentUser.avatar}}" onError="this.src='/assets/img/no_user_photo.png'" class="media-object media-avatar avatar-size"/>
+          </div>
+        </li>
+        <li class="dropdown user-dropdown-li-element"><a class="dropdown-toggle" data-toggle="dropdown"> {{currentUser.first_name + ' ' + this.currentUser.last_name}}
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"><a routerLink="/settings" role="menuitem" tabindex="-1"> User Profile </a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a (click)="doLogout()" role="menuitem" tabindex="-1"> Logout </a></li>
+          </ul>
+        </li>
+        <li class="menu-bar-responcive" (click)="showMenu()">
+          <div class="hamburger-nav-menu" [ngClass]="{'open': mobileMenuSate == true}">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="currentUser.role=='manager'">
+        <ul class="nav navbar-nav">
+          <li><p class="navbar-text navbar-manager"><b> Manager Mode </b></p></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" *ngIf="currentUser.role=='manager'">
+          <li>
+            <div class="avatar-size-box">
+              <img src="{{currentUser.avatar}}" onError="this.src='/assets/img/no_user_photo.png'" class="media-object media-avatar avatar-size"/>
+            </div>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"> {{currentUser.first_name + ' ' + this.currentUser.last_name}}
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+              <li role="presentation"><a (click)="doLogout()" role="menuitem" tabindex="-1"> Logout </a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ng-template #navbarlogin>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-notlogged-text"><a href="#"> Help </a></li>
+        <li class="navbar-notlogged-text"><p class="navbar-text navbar-rate" *ngIf="FRGCrate"> 1 FRGC = $ {{ FRGCrate }} </p></li>
+        <li class="navbar-notlogged-text"><p class="navbar-text navbar-rate" *ngIf="BTCrate"> 1 BTC = $ {{ BTCrate }} </p></li>
+        <li class="navbar-notlogged-text"><a class="navbar-signin-btn" (click)="openModalWithComponent()"> Sing In </a></li>
+        <li class="navbar-notlogged-text"><a routerLink="/sing-up"> Sign Up </a></li>
+      </ul>
+    </ng-template>
+  </div>
+</nav>
+
+<div *ngIf="currentUser">
+  <div *ngIf="currentUser.role=='user'">
+    <nav class="navbar-container navbar-default">
+      <div class="container-fluid" [ngClass]="{'menu-bar-mobile': mobileMenuSate == false}">
+        <ul class="nav navbar-nav">
+          <li class="left"><a routerLink="/dashboard" [routerLinkActive]="['navigation-active']">
+            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Dashboard
+          </a></li>
+          <li class="left"><a routerLink="/buy-sell" [routerLinkActive]="['navigation-active']">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Buy / Sell
+          </a></li>
+          <li class="left"><a routerLink="/send-request" [routerLinkActive]="['navigation-active']">
+            <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Send / Request
+          </a></li>
+          <li class="left"><a routerLink="/accounts" [routerLinkActive]="['navigation-active']">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accounts
+          </a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div *ngIf="currentUser.role=='manager'">
+    <admin-navigation-bar></admin-navigation-bar>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<!-- Sing Up Second Step -->
+
+<div class="modal-header sing-up-modal">
+  <h4 class="modal-title pull-left">Please tell us a little about yourself.</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body sing-up-modal">
+
+  <form name="form" (ngSubmit)="f.form.valid && registrationSecondStep()" #f="ngForm" novalidate>
+    <div class="row form-group">
+      <div class="col-sm-6" [ngClass]="{ 'has-error': f.submitted && !first_name.valid }">
+        <label for="first_name" class="control-label">First Name:</label>
+        <input type="text" class="form-control" id="first_name" name="first_name"
+               [(ngModel)]="model.first_name" #first_name="ngModel" required
+               title="Please enter you first name" placeholder="Enter First Name Here.."/>
+        <div *ngIf="f.submitted && !first_name.valid" class="help-block">First Name is required</div>
+      </div>
+      <div class="col-sm-6" [ngClass]="{ 'has-error': f.submitted && !last_name.valid }">
+        <label for="last_name" class="control-label">Last Name:</label>
+        <input type="text" class="form-control" id="last_name" name="last_name"
+               [(ngModel)]="model.last_name" #last_name="ngModel" required
+               title="Please enter you last name" placeholder="Enter Last Name Here..">
+        <div *ngIf="f.submitted && !last_name.valid" class="help-block">Last Name is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone" class="control-label">Your country:</label>
+      <select2 [data]="country_list" id="country" name="country" class="sing-up-country-list"
+               (valueChanged)="changCountry($event.value)">
+      </select2>
+    </div>
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !phone.valid }">
+      <label for="phone" class="control-label">Phone:</label>
+      <div>
+        <div class="modal-phone-code-frame">
+          <label>{{code}}</label>
+        </div>
+        <div class="modal-phone-number-frame">
+          <input type="text" class="form-control" id="phone" name="phone"
+                [ngModel]="model.phone | phoneFormat" (ngModelChange)="model.phone=$event" #phone="ngModel" required
+                title="Please enter you phone" placeholder="Enter Phone Here..">
+        </div>
+      </div>
+      <div *ngIf="f.submitted && !phone.valid" class="help-block">Phone is required</div>
+    </div>
+    <br>
+    <div class="form-group">
+      <button class="btn btn-primary">Update</button>
+      <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+    </div>
+  </form>
+
+</div>
